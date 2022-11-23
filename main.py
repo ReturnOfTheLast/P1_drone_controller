@@ -1,35 +1,20 @@
-from djitellopy import Tello
-from time import sleep
+from helper_functions import init_tello, fly_and_rotate, get_flight_info
 
-tello = Tello()
-tello.connect()
-
-
-#configure drone
-tello.enable_mission_pads()
-#tello.set_mission_pad_detection_direction(0)
-
-
+# Setup the tello and takeoff
+tello = init_tello()
 tello.takeoff()
 
-#distance = tello.query_distance_tof()
-#print("The distance is:", distance, "cm")
-
-pad = tello.get_mission_pad_id()  # -1 means mission pad not detected 
-time = tello.get_flight_time()
-battery = tello.get_battery()
-print("battery lvl", battery, "%")
-
-distance = 130
+# Dummy, the settings will come from the main interface
+dimensions = [130, 130]
 num_of_sides = 4*3
 
-for _ in range(num_of_sides):
-    time = tello.get_flight_time()
+for i in range(num_of_sides):
+    flight_info = get_flight_info(tello)
+    print(f"""
+        Time: {flight_info['time']}
+        Battery: {flight_info["battery"]}%
+    """)
 
-    print("Flight time is:", time)
-    sleep(1)
-    tello.move_forward(distance)
-    sleep(1)
-    tello.rotate_clockwise(90)
-        
+    fly_and_rotate(tello, dimensions[i%2])
+
 tello.land()
