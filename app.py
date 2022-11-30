@@ -1,5 +1,4 @@
 from flask import Flask, jsonify
-import argparse
 import multiprocessing
 
 import drone_controller as dc
