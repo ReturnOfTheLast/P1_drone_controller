@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 djitellopy = "*"
+flask = "*"
 
 [dev-packages]
 
